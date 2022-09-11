@@ -1,0 +1,3 @@
+window.Mvvm=function(){
+
+}

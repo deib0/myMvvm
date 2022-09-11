@@ -1,13 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>myMvvm</title>
 </head>
 <body>
-    <h1>hello myMvvm!</h1>
-   <script src="./index.js" type="module"></script>
+    <div id="app">
+        <p>用户昵称:{{nickname}}</p>
+        <p>个人信息:年龄：{{profile.age}} 性别：{{profile.gender}}</p>
+    </div>
+    <script src="mvvm.js"></script>
+    <script>
+        // 写法和Vue一样
+        let mvvm = new Mvvm({
+            el: '#app',
+            data: { 
+                nickname:'deibo',
+                profile:{
+                    age:18,
+                    gender:'男'
+                }
+            }
+        });
+    </script>
 </body>
 </html>
