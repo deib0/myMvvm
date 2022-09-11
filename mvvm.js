@@ -16,6 +16,19 @@ function observe(data={}){
         })    
     }
 }
+function proxy(data){
+    for(let key in data){
+        Object.defineProperty(this,key,{
+            configurable:true,
+            get(){
+                return this._data[key]
+            },
+            set(newVal){
+                this._data[key]=newVal
+            }
+        })
+    }
+}
 
 function Mvvm(options={}){
     // 将 options 挂载到实例上的 $options
@@ -24,6 +37,9 @@ function Mvvm(options={}){
     let data = this._data=this.$options.data
     // 数据劫持
     observe(data)
+    // 数据代理
+    proxy.call(this,data)
+
 }
 
 
