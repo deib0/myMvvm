@@ -12,9 +12,9 @@
         <p>个人信息:年龄：{{profile.age}} 性别：{{profile.gender}}</p>
         <p>爱好：最喜欢的音乐：{{taste.music}}</p>
     </div>
-    <script src="mvvm.js"></script>
-    <script>
+    <script type="module">
         // 写法和Vue一样
+        import Mvvm from './lib/mvvm.js'
         let mvvm = new Mvvm({
             el: '#app',
             data: { 
