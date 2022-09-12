@@ -581,6 +581,8 @@ exports.default = Mvvm;
 },{"./utils/compile":"hT3XB","./utils/observe":"dkVin","./utils/proxy":"cQ70N","@parcel/transformer-js/src/esmodule-helpers.js":"ad717"}],"hT3XB":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
+var _watcher = require("./watcher");
+var _watcherDefault = parcelHelpers.interopDefault(_watcher);
 function compile(el, vm) {
     vm.$el = document.querySelector(el);
     let fragment = document.createDocumentFragment();
@@ -596,7 +598,7 @@ function compile(el, vm) {
             if (node.nodeType === 3 && reg.test(txt)) // 对一个符合的文本节点替换的方法
             !function replaceTxt() {
                 node.textContent = txt.replace(reg, (matched, placeholder)=>{
-                    // new Watcher(vm, placeholder, replaceTxt);  // 监听变化，重新进行匹配替换内容
+                    new _watcherDefault.default(vm, placeholder, replaceTxt); // 监听变化，重新进行匹配替换内容
                     return placeholder.split('.').reduce((val, key)=>{
                         return val[key];
                     }, vm);
@@ -610,7 +612,7 @@ function compile(el, vm) {
 }
 exports.default = compile;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"ad717"}],"ad717":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"ad717","./watcher":"dH1dv"}],"ad717":[function(require,module,exports) {
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
@@ -640,7 +642,49 @@ exports.export = function(dest, destName, get) {
     });
 };
 
-},{}],"dkVin":[function(require,module,exports) {
+},{}],"dH1dv":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _dep = require("./dep");
+var _depDefault = parcelHelpers.interopDefault(_dep);
+function Watcher(vm, exp, fn) {
+    this.fn = fn;
+    this.vm = vm;
+    this.exp = exp; // 添加到订阅中
+    _depDefault.default.target = this;
+    let val = vm;
+    let arr = exp.split('.');
+    arr.forEach((key)=>{
+        val = val[key];
+    });
+    _depDefault.default.target = null;
+}
+exports.default = Watcher;
+Watcher.prototype.update = function() {
+    let val = this.vm;
+    let arr = this.exp.split('.');
+    arr.forEach((key)=>{
+        val = val[key];
+    });
+    this.fn(val); // newVal
+};
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"ad717","./dep":"4TBDY"}],"4TBDY":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+function Dep() {
+    this.subs = [];
+}
+exports.default = Dep;
+Dep.prototype.addSub = function(sub) {
+    this.subs.push(sub);
+};
+Dep.prototype.notify = function() {
+    this.subs.forEach((sub)=>sub.update()
+    );
+};
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"ad717"}],"dkVin":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 function observe(data = {}) {
