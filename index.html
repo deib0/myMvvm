@@ -10,9 +10,9 @@
     <div id="app">
         <h3>昵称:{{nickname}}</h3>
         <p>
-            年龄：{{profile.age}}
             性别：{{profile.gender}}
         </p>
+        <p>{{number}}<button id="addButton">+1</button></p>
     </div>
     <script type="module">
         // 写法和Vue一样
@@ -22,11 +22,15 @@
             data: { 
                 nickname:'deibo',
                 profile:{
-                    age:18,
                     gender:'男'
-                }
+                },
+                number:0
             }
         });
+        const addButton=document.querySelector('#addButton')
+        addButton.addEventListener('click',()=>{
+            mvvm.number+=1
+        })
     </script>
 </body>
 </html>
