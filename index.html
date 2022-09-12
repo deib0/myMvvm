@@ -8,9 +8,11 @@
 </head>
 <body>
     <div id="app">
-        <p>用户昵称:{{nickname}}</p>
-        <p>个人信息:年龄：{{profile.age}} 性别：{{profile.gender}}</p>
-        <p>爱好：最喜欢的音乐：{{taste.music}}</p>
+        <h3>昵称:{{nickname}}</h3>
+        <p>
+            年龄：{{profile.age}}
+            性别：{{profile.gender}}
+        </p>
     </div>
     <script type="module">
         // 写法和Vue一样
@@ -22,9 +24,6 @@
                 profile:{
                     age:18,
                     gender:'男'
-                },
-                taste:{
-                    music:'<perfect day>'
                 }
             }
         });
